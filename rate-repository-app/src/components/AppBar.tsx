@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import Constants from 'expo-constants';
+import { View, StyleSheet, ScrollView } from 'react-native';
+import { Link, useLocation } from 'react-router-native';
 
 import AppBarTab from './AppBarTab';
 
+import Constants from 'expo-constants';
 import theme from '../theme';
 
 const styles = StyleSheet.create({
@@ -13,10 +14,17 @@ const styles = StyleSheet.create({
   },
 });
 
-const AppBar: React.FC = () => (
-  <View style={styles.container}>
-    <AppBarTab isActive>Repositories</AppBarTab>
-  </View>
-);
+const AppBar: React.FC = () => {
+  const { pathname } = useLocation();
+  console.log(pathname);
+  return (
+    <View style={styles.container}>
+      <ScrollView horizontal>
+        <Link to='/' component={AppBarTab} isActive={pathname === '/'}>Repositories</Link>
+        <Link to='/signin' component={AppBarTab} isActive={pathname === '/signin'}>Signin</Link>
+      </ScrollView>
+    </View>
+  );
+};
 
 export default AppBar;

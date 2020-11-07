@@ -6,9 +6,6 @@ import RepositoryListItem from './RepositoryListItem';
 import { Repository } from '../types';
 
 const styles = StyleSheet.create({
-  listStyles: {
-    backgroundColor: '#e1e4e8'
-  },
   separator: {
     height: 10,
   },
@@ -65,7 +62,6 @@ const ItemSeparator = () => <View style={styles.separator} />;
 
 const RepositoryList: React.FC = () => (
   <FlatList
-    style={styles.listStyles}
     data={repositories}
     keyExtractor={repo => repo.id}
     ItemSeparatorComponent={ItemSeparator}

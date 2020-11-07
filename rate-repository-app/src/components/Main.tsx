@@ -1,22 +1,36 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import AppBar from './AppBar';
+import { Route, Switch, Redirect } from 'react-router-native';
+import theme from '../theme';
 
+import AppBar from './AppBar';
 import RepositoryList from './RepositoryList';
+import SignIn from './SingIn';
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: theme.colors.mainBackground,
     flexGrow: 1,
     flexShrink: 1,
   }
 });
 
-export function Main(): React.ReactElement {
+const Main: React.FC = () => {
   console.log('LOGGIN FROM MAIN');
   return (
     <View style={styles.container}>
       <AppBar/>
-      <RepositoryList />
+      <Switch>
+        <Route path='/' exact>
+          <RepositoryList />
+        </Route>
+        <Route path='/signin'>
+          <SignIn />
+        </Route>
+        <Redirect to='/' />
+      </Switch>
     </View>
   );
-}
+};
+
+export default Main;

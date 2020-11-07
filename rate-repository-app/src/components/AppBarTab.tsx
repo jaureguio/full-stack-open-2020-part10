@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, TouchableWithoutFeedback, TextStyle, StyleProp } from 'react-native';
-
 import Text from './Text';
 
 import { AppBarTabProps } from '../types';
@@ -20,7 +19,7 @@ const styles = StyleSheet.create({
 
 const AppBarTab: React.FC<AppBarTabProps> = ({
   isActive,
-  onPress = () => null,
+  // onPress = () => null,
   style,
   ...props
 }) => {
@@ -33,15 +32,13 @@ const AppBarTab: React.FC<AppBarTabProps> = ({
     <TouchableWithoutFeedback
       onPress={() => {
         console.log('tab pressed!');
-        onPress();
+        // onPress();
       }}
     >
       <Text 
         style={appBarTabStyles}
         {...props}
-      >
-        Repositories
-      </Text>
+      />
     </TouchableWithoutFeedback>
   );
 };
