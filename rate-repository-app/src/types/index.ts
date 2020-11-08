@@ -24,6 +24,7 @@ export interface Theme {
     textSecondary: string;
     primary: string;
     secondary: string;
+    error: string,
     mainBackground: string;
   };
   fontSizes: Record<'body' | 'subheading', TextStyle['fontSize']>;

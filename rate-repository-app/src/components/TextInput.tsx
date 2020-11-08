@@ -11,11 +11,18 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderColor: theme.colors.mainBackground,
     borderRadius: 4,
+  },
+  errorState: {
+    borderColor: theme.colors.error
   }
 });
 
-const TextInput: React.FC<TextInputProps> = ({ style, ...props }) => {
-  const textInputStyle = [styles.container, style];
+const TextInput: React.FC<TextInputProps> = ({ style, error, ...props }) => {
+  const textInputStyle = [
+    styles.container,
+    Boolean(error) && styles.errorState,
+    style
+  ];
   return (
     <NativeTextInput style={textInputStyle} {...props} />
   );

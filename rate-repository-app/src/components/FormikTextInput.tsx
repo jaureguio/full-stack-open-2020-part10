@@ -6,15 +6,18 @@ import TextInput from './TextInput';
 import Text from './Text';
 
 import { FormikTextInputProps } from '../types';
+import theme from '../theme';
 
 const styles = StyleSheet.create({
   errorText: {
     marginTop: 5,
+    color: theme.colors.error,
   }
 });
 
 const FormikTextInput: React.FC<FormikTextInputProps> = ({ name, ...props }) => {
   const [field, meta, helpers] = useField<string>(name);
+
   const showError = meta.touched && meta.error;
 
   return (

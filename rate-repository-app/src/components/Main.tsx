@@ -16,7 +16,6 @@ const styles = StyleSheet.create({
 });
 
 const Main: React.FC = () => {
-  console.log('LOGGIN FROM MAIN');
   return (
     <View style={styles.container}>
       <AppBar/>

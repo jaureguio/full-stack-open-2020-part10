@@ -1,6 +1,7 @@
 import React from 'react';
 import { Formik } from 'formik';
 import { TouchableWithoutFeedback, View, GestureResponderEvent } from 'react-native';
+import * as yup from 'yup';
 
 import FormikTextInput from './FormikTextInput';
 import Text from './Text';
@@ -9,6 +10,18 @@ const initialValues = {
   username: '',
   password: ''
 };
+/* eslint-disable */
+const validationSchema = yup.object()?.shape({
+  username: yup
+  .string()
+  .trim()
+  .required('Username is required'),
+  password: yup
+  .string()
+  .trim()
+  .required('Password is required'),
+})
+/* eslint-enable */
 
 interface TouchableNativeHandleSubmit {
   handleSubmit: ((e: GestureResponderEvent) => void | undefined)
@@ -19,6 +32,8 @@ const SignIn: React.FC = () => {
   return (
     <Formik
       initialValues={initialValues}
+      // eslint-disable-next-line
+      validationSchema={validationSchema}
       onSubmit={onSubmit}
     >
     {({ handleSubmit }: TouchableNativeHandleSubmit ) => {
@@ -41,7 +56,9 @@ const SignIn: React.FC = () => {
               }}
               backgroundColor='primary'
               fontWeight='bold'
-            >Sign in</Text>
+            >
+              Sign in
+            </Text>
           </TouchableWithoutFeedback>
         </View>
       );
