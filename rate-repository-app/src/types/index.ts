@@ -1,4 +1,4 @@
-import { StyleProp, TextStyle } from 'react-native';
+import { StyleProp, TextStyle, TextInputProps as NativeTextInputProps } from 'react-native';
 
 export interface Repository {
   id: string;
@@ -37,13 +37,21 @@ export interface Theme {
   }
 }
 
-type TextStyleKeys = Partial<Record<keyof TextStyle, string>>;
-
-export interface TextProps extends TextStyleKeys {
+export interface BaseProps {
   style?: StyleProp<TextStyle>
 }
 
-export interface AppBarTabProps extends TextProps {
+export type TextStyleKeys = Partial<Record<keyof TextStyle, string>>;
+
+export interface TextInputProps extends BaseProps, NativeTextInputProps {
+  error?: string | false;
+}
+
+export interface FormikTextInputProps extends NativeTextInputProps {
+  name: string;
+}
+
+export interface AppBarTabProps extends BaseProps {
   isActive?: boolean;
   onPress?: () => void;
 }

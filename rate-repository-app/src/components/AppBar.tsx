@@ -16,12 +16,11 @@ const styles = StyleSheet.create({
 
 const AppBar: React.FC = () => {
   const { pathname } = useLocation();
-  console.log(pathname);
   return (
     <View style={styles.container}>
       <ScrollView horizontal>
         <Link to='/' component={AppBarTab} isActive={pathname === '/'}>Repositories</Link>
-        <Link to='/signin' component={AppBarTab} isActive={pathname === '/signin'}>Signin</Link>
+        <Link to='/signin' component={AppBarTab} isActive={pathname === '/signin'}>Sign in</Link>
       </ScrollView>
     </View>
   );

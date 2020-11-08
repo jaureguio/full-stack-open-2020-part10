@@ -52,7 +52,7 @@ const repositories: Repository[] = [
     language: 'TypeScript',
     forksCount: 13902,
     stargazersCount: 52869,
-    ratingAverage: 0,
+    ratingAverage: 10,
     reviewCount: 0,
     ownerAvatarUrl: 'https://avatars3.githubusercontent.com/u/13142323?v=4',
   },

@@ -6,53 +6,6 @@ import Text from './Text';
 import theme from '../theme';
 import { RepositoryItemProps, RepositoryStatsProps } from "../types";
 
-
-const styles = StyleSheet.create({
-  mainContainer: {
-    backgroundColor: 'white',
-  },
-  sectionContainer: {
-    padding: 8,
-    flexDirection: 'row',
-    justifyContent: 'space-between'
-  },
-  imageContainer: {
-    flex: 3,
-  },
-  imageStyles: {
-    borderRadius: 4,
-    height: 48,
-    width: 48,
-  },
-  repoInfo: {
-    flex: 13,
-    justifyContent: 'space-between',
-  },
-  language: {
-    padding: 4,
-    color: 'white',
-    backgroundColor: theme.colors.primary,
-    alignSelf: 'flex-start',
-    borderRadius: 4,
-  },
-  repoStats: {
-    justifyContent: 'space-around'
-  },
-  subheading: {
-    fontSize: theme.fontSizes.subheading,
-    fontWeight: theme.fontWeights.bold,
-  },
-  boldText: {
-    textAlign: 'center',
-    paddingVertical: 4,
-    fontWeight: theme.fontWeights.bold,
-  },
-  bodyText: {
-    paddingVertical: 4,
-    color: theme.colors.secondary,
-  }
-});
-
 const RepositoryListItem: React.FC<RepositoryItemProps> = ({ repo }) => {
   return (
     <View style={styles.mainContainer}>
@@ -109,5 +62,52 @@ const RepositoryStats: React.FC<RepositoryStatsProps> = ({ stars, forks, reviews
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  mainContainer: {
+    backgroundColor: 'white',
+  },
+  sectionContainer: {
+    padding: 8,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  imageContainer: {
+    flex: 3,
+  },
+  imageStyles: {
+    margin: 'auto',
+    borderRadius: 4,
+    height: 48,
+    width: 48,
+  },
+  repoInfo: {
+    flex: 13,
+    justifyContent: 'space-between',
+  },
+  language: {
+    padding: 4,
+    color: 'white',
+    backgroundColor: theme.colors.primary,
+    alignSelf: 'flex-start',
+    borderRadius: 4,
+  },
+  repoStats: {
+    justifyContent: 'space-around'
+  },
+  subheading: {
+    fontSize: theme.fontSizes.subheading,
+    fontWeight: theme.fontWeights.bold,
+  },
+  boldText: {
+    textAlign: 'center',
+    paddingVertical: 4,
+    fontWeight: theme.fontWeights.bold,
+  },
+  bodyText: {
+    paddingVertical: 4,
+    color: theme.colors.secondary,
+  }
+});
 
 export default RepositoryListItem;

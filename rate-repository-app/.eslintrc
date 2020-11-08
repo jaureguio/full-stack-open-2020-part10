@@ -15,7 +15,6 @@
   "env": {
     "browser": true,
     "es2021": true,
-    "node": true
   },
   "rules": {
     "@typescript-eslint/semi": ["error"],
@@ -25,6 +24,7 @@
       "error", { "argsIgnorePattern": "^_" }
     ],
     "@typescript-eslint/no-explicit-any": 1,
+    "@typescript-eslint/no-empty-interface": 0,
     "react/prop-types": "off",
     "no-case-declarations": 0
   },
