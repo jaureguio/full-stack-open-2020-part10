@@ -2,7 +2,7 @@ import React from 'react';
 import { TextInput as NativeTextInput, StyleSheet } from 'react-native';
 
 import { TextInputProps } from '../types';
-import theme from '../theme';
+import theme from '../utils/theme';
 
 const styles = StyleSheet.create({
   container: {

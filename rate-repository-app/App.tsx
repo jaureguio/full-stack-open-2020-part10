@@ -3,10 +3,12 @@ import { NativeRouter } from 'react-router-native';
 
 import Main from './src/components/Main';
 
-export default function App(): React.ReactElement {
+const App: React.FC = () => {
   return (
     <NativeRouter>
-      <Main />
+        <Main />
     </NativeRouter>
   );
-}
+};
+
+export default App;

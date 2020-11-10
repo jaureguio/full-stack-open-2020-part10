@@ -6,7 +6,7 @@ import TextInput from './TextInput';
 import Text from './Text';
 
 import { FormikTextInputProps } from '../types';
-import theme from '../theme';
+import theme from '../utils/theme';
 
 const styles = StyleSheet.create({
   errorText: {

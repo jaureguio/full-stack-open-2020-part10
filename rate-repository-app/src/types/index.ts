@@ -56,3 +56,13 @@ export interface AppBarTabProps extends BaseProps {
   isActive?: boolean;
   onPress?: () => void;
 }
+
+/* HOOKS */
+
+export interface UseRepositoriesResult {
+  repositories: Repository[];
+  loading: boolean;
+  refetch: () => void;
+}
+
+export type UseRepositories = (initVal?: Repository[]) => UseRepositoriesResult;

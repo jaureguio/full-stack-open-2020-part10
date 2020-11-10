@@ -5,7 +5,7 @@ import { Link, useLocation } from 'react-router-native';
 import AppBarTab from './AppBarTab';
 
 import Constants from 'expo-constants';
-import theme from '../theme';
+import theme from '../utils/theme';
 
 const styles = StyleSheet.create({
   container: {

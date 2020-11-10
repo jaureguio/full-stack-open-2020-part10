@@ -3,7 +3,7 @@ import { View, Image, StyleSheet } from 'react-native';
 
 import Text from './Text';
 
-import theme from '../theme';
+import theme from '../utils/theme';
 import { RepositoryItemProps, RepositoryStatsProps } from "../types";
 
 const RepositoryListItem: React.FC<RepositoryItemProps> = ({ repo }) => {

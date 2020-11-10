@@ -1,5 +1,5 @@
 import { Platform } from 'react-native';
-import { Theme } from './types';
+import { Theme } from '../types';
 
 const theme: Theme = {
   colors: {
