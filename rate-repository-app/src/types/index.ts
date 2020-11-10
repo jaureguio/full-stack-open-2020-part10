@@ -65,4 +65,21 @@ export interface UseRepositoriesResult {
   refetch: () => void;
 }
 
-export type UseRepositories = (initVal?: Repository[]) => UseRepositoriesResult;
+export interface UseRepositories {
+  (initVal?: Repository[]): UseRepositoriesResult;
+}
+
+/**
+ * 
+ * GRAPHQL
+ *  
+ */
+
+/* QUERIES */
+
+export interface PagedRepositories {
+  repositories: {
+    edges: { node: Repository }[]
+  }
+}
+
