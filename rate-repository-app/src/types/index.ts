@@ -1,4 +1,5 @@
 import { StyleProp, TextStyle, TextInputProps as NativeTextInputProps } from 'react-native';
+import { MutationFunction, MutationResult } from '@apollo/react-hooks';
 
 export interface Repository {
   id: string;
@@ -57,7 +58,13 @@ export interface AppBarTabProps extends BaseProps {
   onPress?: () => void;
 }
 
-/* HOOKS */
+/**
+ *
+ *  HOOKS
+ * 
+ */
+
+/* useRepositories */
 
 export interface UseRepositoriesResult {
   repositories: Repository[];
@@ -68,6 +75,15 @@ export interface UseRepositoriesResult {
 export interface UseRepositories {
   (initVal?: Repository[]): UseRepositoriesResult;
 }
+
+/* useSignIn */
+
+export interface Credentials {
+  username: string;
+  password: string;
+}
+
+export type UseSignInHook = () => [(cred: Credentials) => ReturnType<MutationFunction>, MutationResult];
 
 /**
  * 
@@ -83,3 +99,10 @@ export interface PagedRepositories {
   }
 }
 
+/* MUTATIONS */
+
+export interface AuthorizedUserInfo {
+  authorize: {
+    accessToken: string;
+  }
+}

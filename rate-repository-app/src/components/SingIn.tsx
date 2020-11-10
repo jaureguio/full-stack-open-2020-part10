@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Formik } from 'formik';
 import { TouchableWithoutFeedback, View, GestureResponderEvent } from 'react-native';
 import * as yup from 'yup';
@@ -6,11 +6,13 @@ import * as yup from 'yup';
 import FormikTextInput from './FormikTextInput';
 import Text from './Text';
 
+import useSignIn from '../hooks/useSignIn';
+
 const initialValues = {
   username: '',
   password: ''
 };
-/* eslint-disable */
+
 const validationSchema = yup.object()?.shape({
   username: yup
   .string()
@@ -20,19 +22,32 @@ const validationSchema = yup.object()?.shape({
   .string()
   .trim()
   .required('Password is required'),
-})
-/* eslint-enable */
+});
 
 interface TouchableNativeHandleSubmit {
   handleSubmit: ((e: GestureResponderEvent) => void | undefined)
 }
 
 const SignIn: React.FC = () => {
-  const onSubmit = (values: typeof initialValues) => { console.log(values);};
+  const [ signIn, results ] = useSignIn();
+
+  useEffect(() => {
+    if(results.data) {
+      console.log(results.data);
+    }
+  }, [results.data]);
+
+  const onSubmit = async (credentials: typeof initialValues): Promise<void> => {
+    try {
+      await signIn(credentials);
+    } catch(error) {
+      console.log('HANDLING ERROR: ', error);
+    }
+  };
+  
   return (
     <Formik
       initialValues={initialValues}
-      // eslint-disable-next-line
       validationSchema={validationSchema}
       onSubmit={onSubmit}
     >
