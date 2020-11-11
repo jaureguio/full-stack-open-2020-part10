@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Formik } from 'formik';
 import { TouchableWithoutFeedback, View, GestureResponderEvent } from 'react-native';
+import { useHistory } from 'react-router-native';
 import * as yup from 'yup';
 
 import FormikTextInput from './FormikTextInput';
@@ -30,6 +31,7 @@ interface TouchableNativeHandleSubmit {
 
 const SignIn: React.FC = () => {
   const [ signIn, results ] = useSignIn();
+  const history = useHistory();
 
   useEffect(() => {
     if(results.data) {
@@ -37,9 +39,10 @@ const SignIn: React.FC = () => {
     }
   }, [results.data]);
 
-  const onSubmit = async (credentials: typeof initialValues): Promise<void> => {
+  const onSubmit = async (credentials: typeof initialValues): Promise<void> => {    
     try {
       await signIn(credentials);
+      history.push('/');
     } catch(error) {
       console.log('HANDLING ERROR: ', error);
     }

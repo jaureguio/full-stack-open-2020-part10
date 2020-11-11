@@ -7,8 +7,8 @@ class AuthStorage {
    * #namespace = 'auth';
    * 
    */
-  private namespace = 'auth';
-  public constructor (namespace: string) {
+  private namespace: string;
+  public constructor (namespace = 'auth') {
     this.namespace = namespace;
   }
 

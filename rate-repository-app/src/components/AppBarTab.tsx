@@ -19,7 +19,6 @@ const styles = StyleSheet.create({
 
 const AppBarTab: React.FC<AppBarTabProps> = ({
   isActive,
-  // onPress = () => null,
   style,
   ...props
 }) => {
@@ -32,7 +31,6 @@ const AppBarTab: React.FC<AppBarTabProps> = ({
     <TouchableWithoutFeedback
       onPress={() => {
         console.log('tab pressed!');
-        // onPress();
       }}
     >
       <Text 

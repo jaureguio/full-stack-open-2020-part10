@@ -1,5 +1,7 @@
 import { StyleProp, TextStyle, TextInputProps as NativeTextInputProps } from 'react-native';
-import { MutationFunction, MutationResult } from '@apollo/react-hooks';
+import { MutationResult } from '@apollo/react-hooks';
+
+import AuthStorage from '../utils/authStorage';
 
 export interface Repository {
   id: string;
@@ -60,6 +62,18 @@ export interface AppBarTabProps extends BaseProps {
 
 /**
  *
+ *  CONTEXTS
+ * 
+ */
+
+/* AuthStorageContext */
+
+export interface AuthProviderProps {
+  value: AuthStorage;
+}
+
+/**
+ *
  *  HOOKS
  * 
  */
@@ -83,7 +97,16 @@ export interface Credentials {
   password: string;
 }
 
-export type UseSignInHook = () => [(cred: Credentials) => ReturnType<MutationFunction>, MutationResult];
+
+export interface NewAccessToken {
+  accessToken: string;
+}
+
+export type UseSignInHook = [((credentials: Credentials) => Promise<{
+  authorize: NewAccessToken;
+} | null | undefined>), | MutationResult<{
+  authorize: NewAccessToken;
+}>];
 
 /**
  * 
@@ -96,6 +119,12 @@ export type UseSignInHook = () => [(cred: Credentials) => ReturnType<MutationFun
 export interface PagedRepositories {
   repositories: {
     edges: { node: Repository }[]
+  }
+}
+
+export interface AuthorizedUser { 
+  authorizedUser: {
+    username: string;
   }
 }
 
