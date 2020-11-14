@@ -1,5 +1,5 @@
 {
-  "plugins": ["@typescript-eslint", "react", "react-hooks"],
+  "plugins": ["@typescript-eslint", "react", "react-hooks", "jest"],
   "settings": {
     "react": {
       "version": "detect"
@@ -9,12 +9,14 @@
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
+    "plugin:jest/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking"
   ],
   "parser": "@typescript-eslint/parser",
   "env": {
     "browser": true,
     "es2021": true,
+    "node": true
   },
   "rules": {
     "@typescript-eslint/semi": ["error"],
@@ -25,6 +27,7 @@
     ],
     "@typescript-eslint/no-explicit-any": 1,
     "@typescript-eslint/no-empty-interface": 0,
+    "@typescript-eslint/no-unsafe-call": 0,
     "react/prop-types": "off",
     "no-case-declarations": 0
   },

@@ -1,10 +1,11 @@
 import React from 'react';
 import { View, Image, StyleSheet } from 'react-native';
 
-import Text from './Text';
+import Text from '../Text';
 
-import theme from '../utils/theme';
-import { RepositoryItemProps, RepositoryStatsProps } from "../types";
+import theme from '../../utils/theme';
+import { parseThousands } from '../../utils/helpers';
+import { RepositoryItemProps, RepositoryStatsProps } from "../../types";
 
 const RepositoryListItem: React.FC<RepositoryItemProps> = ({ repo }) => {
   return (
@@ -21,10 +22,11 @@ const RepositoryListItem: React.FC<RepositoryItemProps> = ({ repo }) => {
         <View style={styles.repoInfo}>
           <Text style={styles.subheading}>{repo.fullName}</Text>
           <Text style={styles.bodyText}>{repo.description}</Text>
-          <Text style={styles.language}>{repo.language}</Text>
+          <Text style={styles.language} testID={`${repo.id}/lang`}>{repo.language}</Text>
         </View>
       </View>
       <RepositoryStats
+        id={repo.id}
         stars={repo.stargazersCount}
         forks={repo.forksCount}
         reviews={repo.reviewCount}
@@ -34,29 +36,23 @@ const RepositoryListItem: React.FC<RepositoryItemProps> = ({ repo }) => {
   );
 };
 
-const RepositoryStats: React.FC<RepositoryStatsProps> = ({ stars, forks, reviews, ratingAvg }) => {
-  const parseThousands = (value: number) => {
-    return value >= 1000 
-     ? `${Math.round(value/100)/10}k`
-     : value;
-  };
-
+const RepositoryStats: React.FC<RepositoryStatsProps> = ({ id, stars, forks, reviews, ratingAvg }) => {
   return (
     <View style={[ styles.sectionContainer, styles.repoStats ]}>
       <View>
-        <Text style={styles.boldText}>{parseThousands(stars)}</Text>
+        <Text style={styles.boldText} testID={`${id}/stars`}>{parseThousands(stars)}</Text>
         <Text style={styles.bodyText}>Stars</Text>
       </View>
       <View>
-        <Text style={styles.boldText}>{parseThousands(forks)}</Text>
+        <Text style={styles.boldText}  testID={`${id}/forks`}>{parseThousands(forks)}</Text>
         <Text style={styles.bodyText}>Forks</Text>
       </View>
       <View>
-        <Text style={styles.boldText}>{parseThousands(reviews)}</Text>
+        <Text style={styles.boldText}  testID={`${id}/reviewCount`}>{parseThousands(reviews)}</Text>
         <Text style={styles.bodyText}>Reviews</Text>
       </View>
       <View>
-        <Text style={styles.boldText}>{parseThousands(ratingAvg)}</Text>
+        <Text style={styles.boldText}  testID={`${id}/ratingAvg`}>{parseThousands(ratingAvg)}</Text>
         <Text style={styles.bodyText}>Rating</Text>
       </View>
     </View>

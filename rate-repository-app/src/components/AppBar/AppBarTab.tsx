@@ -1,9 +1,9 @@
 import React from 'react';
 import { StyleSheet, TouchableWithoutFeedback, TextStyle, StyleProp } from 'react-native';
-import Text from './Text';
+import Text from '../Text';
 
-import { AppBarTabProps } from '../types';
-import theme from '../utils/theme';
+import { AppBarTabProps } from '../../types';
+import theme from '../../utils/theme';
 
 const styles = StyleSheet.create({
   text: {

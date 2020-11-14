@@ -6,10 +6,10 @@ import { useApolloClient, useQuery } from '@apollo/react-hooks';
 import AppBarTab from './AppBarTab';
 
 import Constants from 'expo-constants';
-import theme from '../utils/theme';
-import useAuth from '../hooks/useAuth';
-import { AUTHORIZED_USER } from '../graphql/queries';
-import { AuthorizedUser } from '../types';
+import theme from '../../utils/theme';
+import useAuth from '../../hooks/useAuth';
+import { AUTHORIZED_USER } from '../../graphql/queries';
+import { AuthorizedUser } from '../../types';
 
 const styles = StyleSheet.create({
   container: {

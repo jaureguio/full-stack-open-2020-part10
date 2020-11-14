@@ -4,10 +4,10 @@ import { TouchableWithoutFeedback, View, GestureResponderEvent } from 'react-nat
 import { useHistory } from 'react-router-native';
 import * as yup from 'yup';
 
-import FormikTextInput from './FormikTextInput';
-import Text from './Text';
+import FormikTextInput from '../FormikTextInput';
+import Text from '../Text';
 
-import useSignIn from '../hooks/useSignIn';
+import useSignIn from '../../hooks/useSignIn';
 
 const initialValues = {
   username: '',

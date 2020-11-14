@@ -19,7 +19,7 @@ export interface RepositoryItemProps {
   repo: Repository;
 }
 
-export type RepositoryStatsProps = Record<'stars' | 'forks' | 'reviews' | 'ratingAvg', number>; 
+export type RepositoryStatsProps = Record<'stars' | 'forks' | 'reviews' | 'ratingAvg', number> & { id: string }; 
 
 export interface Theme {
   colors: {
