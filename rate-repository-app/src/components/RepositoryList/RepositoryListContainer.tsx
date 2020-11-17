@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, FlatList, TouchableOpacity } from 'react-native';
 import { useHistory } from 'react-router-native';
 
 import RepositoryListItem from './RepositoryListItem';
@@ -20,7 +20,7 @@ const RepositoryListContainer: React.FC<RepositoryListContainerProps> = ({ repos
       renderItem={({ item }) => (
         <TouchableOpacity onPress={() => history.push(`/${item.id}`)}>
           <View>
-            <RepositoryListItem repoFromParent={item} id={item.id} />
+            <RepositoryListItem repositoryFromParent={item} repositoryId={item.id} />
           </View>
         </TouchableOpacity>
       )} 
@@ -28,12 +28,6 @@ const RepositoryListContainer: React.FC<RepositoryListContainerProps> = ({ repos
   );
 };
 
-const ItemSeparator = () => <View style={styles.separator} />;
-
-const styles = StyleSheet.create({
-  separator: {
-    height: 10,
-  },
-});
+const ItemSeparator = () => <View style={{ height: 10 }} />;
 
 export default RepositoryListContainer;

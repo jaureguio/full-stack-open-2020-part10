@@ -8,11 +8,11 @@ export interface Repository {
   fullName: string;
   description: string;
   language: string;
-  forksCount: number;
-  stargazersCount: number;
-  ratingAverage: number;
-  reviewCount: number;
   ownerAvatarUrl: string;
+  stargazersCount: number;
+  forksCount: number;
+  reviewCount: number;
+  ratingAverage: number;
   url: string;
 }
 

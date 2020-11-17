@@ -3,3 +3,8 @@ export function parseThousands(value: number): string {
    ? `${Math.round(value/100)/10}k`
    : String(value);
 }
+
+export function formatDate(dateString: string): string {
+  const date = new Date(dateString);
+  return [date.getUTCDate(), date.getUTCMonth(), date.getUTCFullYear()].join('.');
+}

@@ -14,9 +14,28 @@ export const SINGLE_REPO = gql`
   query singleRepo($id: ID!) {
     repository(id: $id) {
       ...repositoryData
-      url
     }
   }
 
   ${REPOSITORY_DATA}
+`;
+
+export const SINGLE_REPO_REVIEWS = gql`
+  query singleRepo($id: ID!) {
+    repository(id: $id) {
+      reviews {
+        edges {
+          node {
+            id
+            text
+            createdAt
+            rating
+            user {
+              username
+            }
+          }
+        }
+      }
+    }
+  }
 `;
