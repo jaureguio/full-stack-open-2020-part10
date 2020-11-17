@@ -1,60 +1,63 @@
-import React from 'react';
-import { View, Image, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet, TouchableWithoutFeedback } from 'react-native';
+import * as WebBrowser from 'expo-web-browser';
+import { useLazyQuery } from '@apollo/react-hooks';
+import { useParams } from 'react-router-native';
 
-import Text from '../Text';
+import Text from '../utilities/Text';
+import RepositoryView from './RepositoryView';
 
 import theme from '../../utils/theme';
-import { parseThousands } from '../../utils/helpers';
-import { RepositoryItemProps, RepositoryStatsProps } from "../../types";
+import { Repository } from '../../types';
+import { SINGLE_REPO } from '../../graphql/queries';
 
-const RepositoryListItem: React.FC<RepositoryItemProps> = ({ repo }) => {
-  return (
+interface RepositoryItemProps {
+  repoFromParent?: Repository;
+  repoId?: string;
+  singleView?: boolean;
+}
+
+interface SingleRepoData {
+  repository: {
+    id: string;
+    fullName: string;
+    description: string;
+    language: string;
+    ownerAvatarUrl: string;
+    stargazersCount: number;
+    forksCount: number;
+    reviewCount: number;
+    ratingAverage: number;
+    url: string;
+  }
+}
+
+const RepositoryListItem: React.FC<RepositoryItemProps> = ({ repoFromParent = {}, repoId = '', singleView = false }) => {
+  const [repoData, setRepoData] = useState<Repository>(repoFromParent as Repository);
+  const [getRepoData, { data, loading }] = useLazyQuery<SingleRepoData, { id: string }>(SINGLE_REPO);
+  const { id: idFromParams } = useParams<{ id: string }>();
+
+  useEffect(() => {
+    if(!Object.keys(repoFromParent).length) {
+      getRepoData({ variables: { id: repoId || idFromParams }});
+    }
+    if(data && data.repository) {
+      setRepoData(data?.repository);
+    }
+  }, [data?.repository]);
+
+  if(loading) return <Text>...Loading</Text>;
+
+  return repoData && (
     <View style={styles.mainContainer}>
-      <View style={styles.sectionContainer}>
-        <View style={styles.imageContainer}>
-          <Image
-            style={styles.imageStyles}
-            source={{
-              uri: repo.ownerAvatarUrl
-            }}
-          />
-        </View>
-        <View style={styles.repoInfo}>
-          <Text style={styles.subheading}>{repo.fullName}</Text>
-          <Text style={styles.bodyText}>{repo.description}</Text>
-          <Text style={styles.language} testID={`${repo.id}/lang`}>{repo.language}</Text>
-        </View>
-      </View>
-      <RepositoryStats
-        id={repo.id}
-        stars={repo.stargazersCount}
-        forks={repo.forksCount}
-        reviews={repo.reviewCount}
-        ratingAvg={repo.ratingAverage}
-      />
-    </View>
-  );
-};
-
-const RepositoryStats: React.FC<RepositoryStatsProps> = ({ id, stars, forks, reviews, ratingAvg }) => {
-  return (
-    <View style={[ styles.sectionContainer, styles.repoStats ]}>
-      <View>
-        <Text style={styles.boldText} testID={`${id}/stars`}>{parseThousands(stars)}</Text>
-        <Text style={styles.bodyText}>Stars</Text>
-      </View>
-      <View>
-        <Text style={styles.boldText}  testID={`${id}/forks`}>{parseThousands(forks)}</Text>
-        <Text style={styles.bodyText}>Forks</Text>
-      </View>
-      <View>
-        <Text style={styles.boldText}  testID={`${id}/reviewCount`}>{parseThousands(reviews)}</Text>
-        <Text style={styles.bodyText}>Reviews</Text>
-      </View>
-      <View>
-        <Text style={styles.boldText}  testID={`${id}/ratingAvg`}>{parseThousands(ratingAvg)}</Text>
-        <Text style={styles.bodyText}>Rating</Text>
-      </View>
+      <RepositoryView data={repoData} />
+      {singleView && (
+        <TouchableWithoutFeedback onPress={() => WebBrowser.openBrowserAsync(repoData.url)}>
+          <View style={[styles.sectionContainer, styles.buttonContainer]}>
+            <Text style={styles.buttonText}>Open in GitHub</Text>
+          </View>
+      </TouchableWithoutFeedback>
+      )}
     </View>
   );
 };
@@ -68,41 +71,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between'
   },
-  imageContainer: {
-    flex: 3,
-  },
-  imageStyles: {
-    margin: 'auto',
-    borderRadius: 4,
-    height: 48,
-    width: 48,
-  },
-  repoInfo: {
-    flex: 13,
-    justifyContent: 'space-between',
-  },
-  language: {
-    padding: 4,
-    color: 'white',
+  buttonContainer: {
     backgroundColor: theme.colors.primary,
-    alignSelf: 'flex-start',
-    borderRadius: 4,
+    justifyContent: 'center',
+    margin: 8,
   },
-  repoStats: {
-    justifyContent: 'space-around'
-  },
-  subheading: {
-    fontSize: theme.fontSizes.subheading,
-    fontWeight: theme.fontWeights.bold,
-  },
-  boldText: {
-    textAlign: 'center',
-    paddingVertical: 4,
-    fontWeight: theme.fontWeights.bold,
-  },
-  bodyText: {
-    paddingVertical: 4,
-    color: theme.colors.secondary,
+  buttonText: {
+    color: 'white',
+    fontWeight: theme.fontWeights.bold
   }
 });
 

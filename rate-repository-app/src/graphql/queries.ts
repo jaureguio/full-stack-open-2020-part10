@@ -1,4 +1,6 @@
-import { gql } from '@apollo/react-hooks';
+import { gql } from 'apollo-boost';
+
+import { REPOSITORY_DATA } from './fragments';
 
 export const AUTHORIZED_USER = gql`
   query {
@@ -6,4 +8,15 @@ export const AUTHORIZED_USER = gql`
       username
     }
   }
+`;
+
+export const SINGLE_REPO = gql`
+  query singleRepo($id: ID!) {
+    repository(id: $id) {
+      ...repositoryData
+      url
+    }
+  }
+
+  ${REPOSITORY_DATA}
 `;

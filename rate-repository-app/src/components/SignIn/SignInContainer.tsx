@@ -3,8 +3,8 @@ import { Formik } from 'formik';
 import { TouchableWithoutFeedback, View, GestureResponderEvent } from 'react-native';
 import * as yup from 'yup';
 
-import FormikTextInput from '../FormikTextInput';
-import Text from '../Text';
+import FormikTextInput from '../utilities/FormikTextInput';
+import Text from '../utilities/Text';
 
 interface Values {
   username: string;

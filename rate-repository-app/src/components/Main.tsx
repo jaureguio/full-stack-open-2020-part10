@@ -4,7 +4,8 @@ import { Route, Switch, Redirect } from 'react-router-native';
 import theme from '../utils/theme';
 
 import AppBar from './AppBar/AppBar';
-import RepositoryList from './RepositoryList/'; 
+import RepositoryList from './RepositoryList'; 
+import RepositoryListItem from './RepositoryList/RepositoryListItem';
 import SignIn from './SignIn';
 
 const styles = StyleSheet.create({
@@ -20,11 +21,14 @@ const Main: React.FC = () => {
     <View style={styles.container}>
       <AppBar/>
       <Switch>
-        <Route path='/' exact>
+        <Route exact path='/'>
           <RepositoryList />
         </Route>
-        <Route path='/signin'>
+        <Route exact path='/signin'>
           <SignIn />
+        </Route>
+        <Route path='/:id'>
+          <RepositoryListItem singleView />
         </Route>
         <Redirect to='/' />
       </Switch>

@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, FlatList, StyleSheet } from 'react-native';
+import { View, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { useHistory } from 'react-router-native';
 
 import RepositoryListItem from './RepositoryListItem';
 import { Repository } from '../../types';
@@ -9,12 +10,20 @@ interface RepositoryListContainerProps {
 }
 
 const RepositoryListContainer: React.FC<RepositoryListContainerProps> = ({ repositories }) => {
+  const history = useHistory();
+  
   return (
     <FlatList
       data={repositories}
       keyExtractor={repo => repo.id}
       ItemSeparatorComponent={ItemSeparator}
-      renderItem={({ item }) => <RepositoryListItem repo={item} />} 
+      renderItem={({ item }) => (
+        <TouchableOpacity onPress={() => history.push(`/${item.id}`)}>
+          <View>
+            <RepositoryListItem repoFromParent={item} id={item.id} />
+          </View>
+        </TouchableOpacity>
+      )} 
     />
   );
 };

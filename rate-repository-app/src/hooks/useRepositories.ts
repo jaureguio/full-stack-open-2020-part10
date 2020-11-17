@@ -16,6 +16,7 @@ export const PAGED_REPOSITORIES = gql`
           forksCount
           reviewCount
           ratingAverage
+          url
         }
       }
     }

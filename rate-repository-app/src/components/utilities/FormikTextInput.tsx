@@ -5,8 +5,8 @@ import { useField } from 'formik';
 import TextInput from './TextInput';
 import Text from './Text';
 
-import { FormikTextInputProps } from '../types';
-import theme from '../utils/theme';
+import { FormikTextInputProps } from '../../types';
+import theme from '../../utils/theme';
 
 const styles = StyleSheet.create({
   errorText: {

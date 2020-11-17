@@ -13,13 +13,8 @@ export interface Repository {
   ratingAverage: number;
   reviewCount: number;
   ownerAvatarUrl: string;
+  url: string;
 }
-
-export interface RepositoryItemProps {
-  repo: Repository;
-}
-
-export type RepositoryStatsProps = Record<'stars' | 'forks' | 'reviews' | 'ratingAvg', number> & { id: string }; 
 
 export interface Theme {
   colors: {
