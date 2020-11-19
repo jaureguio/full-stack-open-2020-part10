@@ -1,10 +1,11 @@
 import React from 'react';
 import { Formik } from 'formik';
-import { TouchableWithoutFeedback, View, GestureResponderEvent } from 'react-native';
+import { TouchableWithoutFeedback, View } from 'react-native';
 import * as yup from 'yup';
 
 import FormikTextInput from '../utilities/FormikTextInput';
 import Text from '../utilities/Text';
+import { TouchableNativeHandleSubmit } from '../../types';
 
 interface Values {
   username: string;
@@ -19,25 +20,10 @@ interface SignInContainerProps<T, S> {
   onSubmit(values: T): Promise<void>; 
 }
 
-interface TouchableNativeHandleSubmit {
-  handleSubmit: ((e: GestureResponderEvent) => void | undefined)
-}
-
 const initValues = {
   username: '',
   password: ''
 };
-
-const schema = yup.object().shape({
-  username: yup
-  .string()
-  .trim()
-  .required('Username is required'),
-  password: yup
-  .string()
-  .trim()
-  .required('Password is required'),
-});
 
 const SignInContainer: React.FC<SignInContainerProps<Values, Schema>> = ({ initialValues = initValues, validationSchema = schema, onSubmit}) => {
   return (
@@ -50,7 +36,7 @@ const SignInContainer: React.FC<SignInContainerProps<Values, Schema>> = ({ initi
       return ( 
         <View style={{
           paddingHorizontal: 12,
-          height: 200,
+          paddingVertical: 8,
           justifyContent: 'space-evenly',
           backgroundColor: 'white',
         }}>
@@ -62,7 +48,8 @@ const SignInContainer: React.FC<SignInContainerProps<Values, Schema>> = ({ initi
                 color: 'white',
                 textAlign: 'center',
                 borderRadius: 4,
-                padding: 12
+                padding: 12,
+                marginVertical: 8,
               }}
               backgroundColor='primary'
               fontWeight='bold'
@@ -76,5 +63,16 @@ const SignInContainer: React.FC<SignInContainerProps<Values, Schema>> = ({ initi
     </Formik>
   );
 };
+
+const schema = yup.object().shape({
+  username: yup
+  .string()
+  .trim()
+  .required('Username is required'),
+  password: yup
+  .string()
+  .trim()
+  .required('Password is required'),
+});
 
 export default SignInContainer;

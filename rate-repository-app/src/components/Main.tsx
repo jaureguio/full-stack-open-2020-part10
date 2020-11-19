@@ -5,7 +5,8 @@ import theme from '../utils/theme';
 
 import AppBar from './AppBar/AppBar';
 import RepositoryList from './RepositoryList'; 
-import RepositoryListItem from './RepositoryList/RepositoryListItem';
+import SingleRepository from './RepositoryList/SingleRepository';
+import ReviewForm from './ReviewForm';
 import SignIn from './SignIn';
 
 const styles = StyleSheet.create({
@@ -27,8 +28,11 @@ const Main: React.FC = () => {
         <Route exact path='/signin'>
           <SignIn />
         </Route>
+        <Route exact path='/newreview'>
+          <ReviewForm />
+        </Route>
         <Route path='/:id'>
-          <RepositoryListItem singleView />
+          <SingleRepository />
         </Route>
         <Redirect to='/' />
       </Switch>

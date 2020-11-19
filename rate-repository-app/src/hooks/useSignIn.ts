@@ -16,7 +16,7 @@ function useSignIn(): UseSignInHook {
   const signIn = async (credentials: Credentials) => {
 
     const { data } = await mutate({ variables: credentials });
-    if(data && data.authorize) {
+    if(data?.authorize) {
       await authStorage.setAccessToken(data.authorize.accessToken);
       await apolloClient.resetStore();
     }

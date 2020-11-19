@@ -1,13 +1,13 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
-import { Link, useLocation } from 'react-router-native';
+import { Link, useLocation, useHistory } from 'react-router-native';
 import { useApolloClient, useQuery } from '@apollo/react-hooks';
+import useAuth from '../../hooks/useAuth';
 
 import AppBarTab from './AppBarTab';
 
 import Constants from 'expo-constants';
 import theme from '../../utils/theme';
-import useAuth from '../../hooks/useAuth';
 import { AUTHORIZED_USER } from '../../graphql/queries';
 import { AuthorizedUser } from '../../types';
 
@@ -19,20 +19,27 @@ const styles = StyleSheet.create({
 });
 
 const AppBar: React.FC = () => {
-  const { data } = useQuery<AuthorizedUser>(AUTHORIZED_USER);
-  const authStorage = useAuth();
   const { pathname } = useLocation();
+  const history = useHistory();
+  const authStorage = useAuth();
   const apolloClient = useApolloClient();
+  const { data } = useQuery<AuthorizedUser>(AUTHORIZED_USER);
 
   const onSignOut = async () => {
     await authStorage.removeAccessToken();
     await apolloClient.resetStore();
+    history.push('/');
   };
 
-  const singInOut = data && data.authorizedUser
-    ? <AppBarTab onPress={onSignOut}>Sign out</AppBarTab>
-    : <Link to='/signin' component={AppBarTab} isActive={pathname === '/signin'}>Sign in</Link>;
-
+  const singInOut = data?.authorizedUser
+    ? (
+      <>
+        <Link to='/newreview' component={AppBarTab} isActive={pathname === '/newreview'}>Create a review</Link>
+        <AppBarTab onPress={onSignOut}>Sign out</AppBarTab>
+      </>
+    ) : (
+      <Link to='/signin' component={AppBarTab} isActive={pathname === '/signin'}>Sign in</Link>
+    );
   return (
     <View style={styles.container}>
       <ScrollView horizontal>

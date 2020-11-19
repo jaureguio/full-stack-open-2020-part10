@@ -1,7 +1,18 @@
-import { StyleProp, TextStyle, TextInputProps as NativeTextInputProps } from 'react-native';
-import { MutationResult } from '@apollo/react-hooks';
+import { StyleProp, TextStyle, TextInputProps as NativeTextInputProps, GestureResponderEvent } from 'react-native';
+import { MutationResult, gql } from '@apollo/react-hooks';
 
 import AuthStorage from '../utils/authStorage';
+
+export interface Review {
+  id: string;
+  text: string;
+  rating: number;
+  createdAt: string;
+  repositoryId: string;
+  user: {
+    username: string;
+  }
+}
 
 export interface Repository {
   id: string;
@@ -14,6 +25,7 @@ export interface Repository {
   reviewCount: number;
   ratingAverage: number;
   url: string;
+  reviews?: Boilerplate<Review>
 }
 
 export interface Theme {
@@ -55,6 +67,10 @@ export interface AppBarTabProps extends BaseProps {
   onPress?: () => void;
 }
 
+export interface TouchableNativeHandleSubmit {
+  handleSubmit: ((e: GestureResponderEvent) => void | undefined)
+}
+
 /**
  *
  *  CONTEXTS
@@ -73,25 +89,23 @@ export interface AuthProviderProps {
  * 
  */
 
-/* useRepositories */
-
-export interface UseRepositoriesResult {
-  repositories: Repository[];
+export interface RepositoriesHookResult<T> {
+  results: T | undefined;
   loading: boolean;
   refetch: () => void;
 }
 
-export interface UseRepositories {
-  (initVal?: Repository[]): UseRepositoriesResult;
-}
+/* useRepositories */
+export type UseRepositories = () => RepositoriesHookResult<Repository[]>;
+
+/* useSingleRepository */
+export type UseSingleRepository = ( repositoryId: string ) => RepositoriesHookResult<Repository>;
 
 /* useSignIn */
-
 export interface Credentials {
   username: string;
   password: string;
 }
-
 
 export interface NewAccessToken {
   accessToken: string;
@@ -111,10 +125,16 @@ export type UseSignInHook = [((credentials: Credentials) => Promise<{
 
 /* QUERIES */
 
-export interface PagedRepositories {
-  repositories: {
-    edges: { node: Repository }[]
-  }
+interface Boilerplate<T> {
+  edges: { node: T }[]
+}
+
+export interface RepositoriesQueryResult {
+  repositories: Boilerplate<Repository>
+}
+
+export interface SingleRepositoryQueryResult {
+  repository: Repository
 }
 
 export interface AuthorizedUser { 

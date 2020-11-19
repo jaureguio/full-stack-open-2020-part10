@@ -1,41 +1,20 @@
-import { useQuery, gql } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/react-hooks';
 
-import { UseRepositories, PagedRepositories, Repository } from '../types';
+import { Repository, UseRepositories, RepositoriesQueryResult } from '../types';
+import { REPOSITORIES } from '../graphql/queries';
 
-export const PAGED_REPOSITORIES = gql`
-  query {
-    repositories {
-      edges {
-        node {
-          id
-          fullName
-          description
-          language
-          ownerAvatarUrl
-          stargazersCount
-          forksCount
-          reviewCount
-          ratingAverage
-          url
-        }
-      }
-    }
-  }
-`;
-
-
-const useRepositories: UseRepositories = (initialRepositories = []) => {
-  const { data, loading, refetch } = useQuery<PagedRepositories>(PAGED_REPOSITORIES, {
+const useRepositories: UseRepositories = () => {
+  const { data, loading, refetch } = useQuery<RepositoriesQueryResult>(REPOSITORIES, {
     fetchPolicy: 'cache-and-network',
   });
 
-  let repositories: Repository[] = initialRepositories;
+  let results: Repository[] | undefined;
 
   if(data) {
-    repositories = data.repositories.edges.map(({ node }) => node);
+    results = data.repositories.edges.map(({ node }) => node);
   }
 
-  return { repositories, loading, refetch };
+  return { results, loading, refetch };
 };
 
 export default useRepositories;

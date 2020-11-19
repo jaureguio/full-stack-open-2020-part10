@@ -4,9 +4,9 @@ import RepositoryListContainer from './RepositoryListContainer';
 import useRepositories from '../../hooks/useRepositories';
 
 const RepositoryList: React.FC = () => {
-  const { repositories } = useRepositories([]);
+  const { results } = useRepositories();
 
-  return <RepositoryListContainer repositories={repositories} />;
+  return <RepositoryListContainer repositories={results} />;
 };
 
 export default RepositoryList;

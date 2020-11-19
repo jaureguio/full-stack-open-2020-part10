@@ -1,6 +1,6 @@
 import { gql } from "apollo-boost";
 
-export const REPOSITORY_DATA = gql`
+export const REPOSITORY_DATA_FRAGMENT = gql`
   fragment repositoryData on Repository {
     id
     fullName

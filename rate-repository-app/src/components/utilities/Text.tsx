@@ -4,6 +4,20 @@ import { Text as NativeText, StyleSheet } from 'react-native';
 import { BaseProps, TextStyleKeys } from '../../types';
 import theme from '../../utils/theme';
 
+const Text: React.FC<BaseProps & TextStyleKeys> = ({ color, backgroundColor, fontSize, fontWeight, style, ...props }) => {
+  const textStyle = [
+    styles.text,
+    color === 'textSecondary' && styles.colorTextSecondary,
+    color === 'primary' && styles.colorPrimary,
+    backgroundColor === 'primary' && styles.backgroundPrimary,
+    fontSize === 'subheading' && styles.fontSizeSubheading,
+    fontWeight === 'bold' && styles.fontWeightBold,
+    style,
+  ];
+
+  return <NativeText style={textStyle} {...props} />;
+};
+
 const styles = StyleSheet.create({
   text: {
     color: theme.colors.textPrimary,
@@ -27,19 +41,5 @@ const styles = StyleSheet.create({
     fontWeight: theme.fontWeights.bold,
   },
 });
-
-const Text: React.FC<BaseProps & TextStyleKeys> = ({ color, backgroundColor, fontSize, fontWeight, style, ...props }) => {
-  const textStyle = [
-    styles.text,
-    color === 'textSecondary' && styles.colorTextSecondary,
-    color === 'primary' && styles.colorPrimary,
-    backgroundColor === 'primary' && styles.backgroundPrimary,
-    fontSize === 'subheading' && styles.fontSizeSubheading,
-    fontWeight === 'bold' && styles.fontWeightBold,
-    style,
-  ];
-
-  return <NativeText style={textStyle} {...props} />;
-};
 
 export default Text;
