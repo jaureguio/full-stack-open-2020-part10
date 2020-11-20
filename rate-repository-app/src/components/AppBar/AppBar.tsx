@@ -38,8 +38,12 @@ const AppBar: React.FC = () => {
         <AppBarTab onPress={onSignOut}>Sign out</AppBarTab>
       </>
     ) : (
-      <Link to='/signin' component={AppBarTab} isActive={pathname === '/signin'}>Sign in</Link>
+      <>
+        <Link to='/signin' component={AppBarTab} isActive={pathname === '/signin'}>Sign in</Link>
+        <Link to='/signup' component={AppBarTab} isActive={pathname === '/signup'}>Sign up</Link>
+      </>
     );
+
   return (
     <View style={styles.container}>
       <ScrollView horizontal>

@@ -89,33 +89,22 @@ export interface AuthProviderProps {
  * 
  */
 
+export interface Credentials {
+  username: string;
+  password: string;
+}
+
 export interface RepositoriesHookResult<T> {
   results: T | undefined;
   loading: boolean;
   refetch: () => void;
 }
 
-/* useRepositories */
-export type UseRepositories = () => RepositoriesHookResult<Repository[]>;
-
 /* useSingleRepository */
 export type UseSingleRepository = ( repositoryId: string ) => RepositoriesHookResult<Repository>;
 
 /* useSignIn */
-export interface Credentials {
-  username: string;
-  password: string;
-}
 
-export interface NewAccessToken {
-  accessToken: string;
-}
-
-export type UseSignInHook = [((credentials: Credentials) => Promise<{
-  authorize: NewAccessToken;
-} | null | undefined>), | MutationResult<{
-  authorize: NewAccessToken;
-}>];
 
 /**
  * 

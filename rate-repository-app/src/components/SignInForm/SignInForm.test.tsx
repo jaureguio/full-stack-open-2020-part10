@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent, waitFor, act } from '@testing-library/react-native';
 
-import SignInContainer from './SignInContainer';
+import SignInFormContainer from './SignInFormContainer';
 
 const credentials = {
   username: 'oscarj',
@@ -13,7 +13,7 @@ describe('SignIn', () => {
     it('calls onSubmit function with correct argumwnts when a valid form is submitted', async () => {
       const onSubmit = jest.fn();
 
-      const { getByPlaceholderText, getByText } = render(<SignInContainer onSubmit={onSubmit} />)
+      const { getByPlaceholderText, getByText } = render(<SignInFormContainer onSubmit={onSubmit} />);
       
       fireEvent.changeText(getByPlaceholderText('Username'), credentials.username);
       fireEvent.changeText(getByPlaceholderText('Password'), credentials.password);
@@ -26,7 +26,7 @@ describe('SignIn', () => {
        */
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
       await act(async () => {
-        await fireEvent.press(getByText('Sign in'));
+        await fireEvent.press(getByText(/sign in/i));
       });
 
       await waitFor(() => {

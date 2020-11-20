@@ -1,6 +1,6 @@
 import { gql } from '@apollo/react-hooks';
 
-export const AUTHORIZED_USER = gql`
+export const AUTHORIZE_USER = gql`
   mutation authUser($username: String!, $password: String!) {
     authorize(credentials: { username: $username, password: $password }) {
       accessToken
@@ -24,6 +24,14 @@ export const CREATE_REVIEW = gql`
       user {
         username
       }
+    }
+  }
+`;
+
+export const CREATE_USER = gql`
+  mutation createUser($username: String!, $password: String!) {
+    createUser(user: { username: $username, password: $password }) {
+      username
     }
   }
 `;

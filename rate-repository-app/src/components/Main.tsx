@@ -7,7 +7,8 @@ import AppBar from './AppBar/AppBar';
 import RepositoryList from './RepositoryList'; 
 import SingleRepository from './RepositoryList/SingleRepository';
 import ReviewForm from './ReviewForm';
-import SignIn from './SignIn';
+import SignIn from './SignInForm';
+import SignUp from './SignUpForm';
 
 const styles = StyleSheet.create({
   container: {
@@ -27,6 +28,9 @@ const Main: React.FC = () => {
         </Route>
         <Route exact path='/signin'>
           <SignIn />
+        </Route>
+        <Route exact path='/signup'>
+          <SignUp/>
         </Route>
         <Route exact path='/newreview'>
           <ReviewForm />

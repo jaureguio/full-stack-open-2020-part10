@@ -4,21 +4,23 @@ import { Text as NativeText, StyleSheet } from 'react-native';
 import { BaseProps, TextStyleKeys } from '../../types';
 import theme from '../../utils/theme';
 
-const Text: React.FC<BaseProps & TextStyleKeys> = ({ color, backgroundColor, fontSize, fontWeight, style, ...props }) => {
+interface TextProps extends BaseProps, TextStyleKeys {}
+
+const Text: React.FC<TextProps> = ({ color, backgroundColor, fontSize, fontWeight, style, ...props }) => {
   const textStyle = [
-    styles.text,
-    color === 'textSecondary' && styles.colorTextSecondary,
-    color === 'primary' && styles.colorPrimary,
-    backgroundColor === 'primary' && styles.backgroundPrimary,
-    fontSize === 'subheading' && styles.fontSizeSubheading,
-    fontWeight === 'bold' && styles.fontWeightBold,
+    baseStyles.text,
+    color === 'textSecondary' && baseStyles.colorTextSecondary,
+    color === 'primary' && baseStyles.colorPrimary,
+    backgroundColor === 'primary' && baseStyles.backgroundPrimary,
+    fontSize === 'subheading' && baseStyles.fontSizeSubheading,
+    fontWeight === 'bold' && baseStyles.fontWeightBold,
     style,
   ];
 
   return <NativeText style={textStyle} {...props} />;
 };
 
-const styles = StyleSheet.create({
+const baseStyles = StyleSheet.create({
   text: {
     color: theme.colors.textPrimary,
     fontSize: theme.fontSizes.body,

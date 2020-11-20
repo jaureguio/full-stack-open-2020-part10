@@ -10,6 +10,7 @@ import Text from '../utilities/Text';
 
 import { CREATE_REVIEW } from '../../graphql/mutations';
 import { TouchableNativeHandleSubmit } from '../../types';
+import Button from '../utilities/Button';
 
 // Generic interface in order to account for inputs from the form fields (rating: string) and for the data used as variable for the graphql mutation (rating: number)
 interface ReviewInput<T> {
@@ -73,17 +74,7 @@ const ReviewForm: React.FC = () => {
           <FormikTextInput name='repositoryName' placeholder='Repository name' />
           <FormikTextInput name='rating' placeholder='Rating' keyboardType='numeric' />
           <FormikTextInput name='text' placeholder='Review text' multiline />
-          <TouchableWithoutFeedback onPress={(e) => handleSubmit(e)}>
-            <Text style={{
-                color: 'white',
-                textAlign: 'center',
-                borderRadius: 4,
-                padding: 12,
-                marginVertical: 8,
-              }}
-              backgroundColor='primary'
-              fontWeight='bold'>Save Review</Text>
-          </TouchableWithoutFeedback>
+          <Button backgroundColor='primary' fontWeight='bold' onPress={handleSubmit}>Save Review</Button>
         </View>
       )}
     </Formik>
