@@ -3,19 +3,18 @@ import { View, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 import { useHistory } from 'react-router-native';
 
 import RepositoryView from '../RepositoryView';
-import { Repository } from '../../types';
+import SortingMenu from './SortingMenu';
 
-interface RepositoryListContainerProps {
-  repositories?: Repository[];
-}
+import { RepositoryListContainerProps } from '../../types';
 
-const RepositoryListContainer: React.FC<RepositoryListContainerProps> = ({ repositories }) => {
+const RepositoryListContainer: React.FC<RepositoryListContainerProps> = ({ repositories, setSortingCriteria, sorting }) => {
   const history = useHistory();
   
   return (
     <FlatList
       data={repositories}
       keyExtractor={repo => repo.id}
+      ListHeaderComponent={() => <SortingMenu setSortingCriteria={setSortingCriteria} sorting={sorting} />}
       ItemSeparatorComponent={ItemSeparator}
       renderItem={({ item: repository }) => (
         <TouchableOpacity onPress={() => history.push(`/${repository.id}`)}>

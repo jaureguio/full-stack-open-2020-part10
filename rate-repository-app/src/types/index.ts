@@ -1,5 +1,5 @@
+import { Dispatch, SetStateAction } from 'react';
 import { StyleProp, TextStyle, TextInputProps as NativeTextInputProps, GestureResponderEvent } from 'react-native';
-import { MutationResult, gql } from '@apollo/react-hooks';
 
 import AuthStorage from '../utils/authStorage';
 
@@ -69,6 +69,12 @@ export interface AppBarTabProps extends BaseProps {
 
 export interface TouchableNativeHandleSubmit {
   handleSubmit: ((e: GestureResponderEvent) => void | undefined)
+}
+
+export interface RepositoryListContainerProps {
+  repositories?: Repository[];
+  setSortingCriteria: Dispatch<SetStateAction<string>>;
+  sorting: string;
 }
 
 /**

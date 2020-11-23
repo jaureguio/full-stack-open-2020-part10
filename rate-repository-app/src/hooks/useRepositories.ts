@@ -1,12 +1,27 @@
 import { useQuery } from '@apollo/react-hooks';
 
 import { Repository, RepositoriesHookResult, RepositoriesQueryResult } from '../types';
+
 import { REPOSITORIES } from '../graphql/queries';
 
-type UseRepositories = () => RepositoriesHookResult<Repository[]>;
+interface SortCriteriaTypes {
+  [k: string]: {
+    orderBy: 'CREATED_AT' | 'RATING_AVERAGE';
+    orderDirection: 'DESC' | 'ASC';
+  }
+}
 
-const useRepositories: UseRepositories = () => {
+type UseRepositories = (sortCriteria: string) => RepositoriesHookResult<Repository[]>;
+
+const sortCriteriaOptions: SortCriteriaTypes = {
+  latest_repos: { orderBy: 'CREATED_AT', orderDirection: 'DESC' },
+  highest_rated_repos: { orderBy: 'RATING_AVERAGE', orderDirection: 'DESC' },
+  lowest_rated_repos: { orderBy: 'RATING_AVERAGE', orderDirection: 'ASC' },
+};
+
+const useRepositories: UseRepositories = (sortCriteria) => {
   const { data, loading, refetch } = useQuery<RepositoriesQueryResult>(REPOSITORIES, {
+    variables: sortCriteriaOptions[sortCriteria],
     fetchPolicy: 'cache-and-network',
   });
 
