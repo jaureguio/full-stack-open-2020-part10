@@ -3,7 +3,7 @@ import RNPickerSelect from 'react-native-picker-select';
 
 import { RepositoryListContainerProps } from '../../types';
 
-type SortingMenuProps = Omit<RepositoryListContainerProps, 'repositories'>;
+type SortingMenuProps = Pick<RepositoryListContainerProps, 'sorting' | 'setSortingCriteria'>;
 
 const SortingMenu: React.FC<SortingMenuProps> = ({ setSortingCriteria, sorting }) => {
   return (

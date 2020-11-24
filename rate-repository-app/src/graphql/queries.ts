@@ -11,8 +11,12 @@ export const AUTHORIZED_USER = gql`
 `;
 
 export const REPOSITORIES = gql`
-  query getRepositories($orderBy: AllRepositoriesOrderBy, $orderDirection: OrderDirection) {
-    repositories(orderBy: $orderBy, orderDirection: $orderDirection) {
+  query getRepositories(
+    $orderBy: AllRepositoriesOrderBy,
+    $orderDirection: OrderDirection,
+    $filter: String
+  ) {
+    repositories(orderBy: $orderBy, orderDirection: $orderDirection, searchKeyword: $filter) {
       edges {
         node {
          ...repositoryData

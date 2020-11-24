@@ -1,20 +1,34 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { View, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
-import { useHistory } from 'react-router-native';
+import { withRouter, RouteComponentProps } from 'react-router-native';
 
 import RepositoryView from '../RepositoryView';
+import FilterInput from './FilterInput';
 import SortingMenu from './SortingMenu';
 
 import { RepositoryListContainerProps } from '../../types';
 
-const RepositoryListContainer: React.FC<RepositoryListContainerProps> = ({ repositories, setSortingCriteria, sorting }) => {
-  const history = useHistory();
-  
-  return (
-    <FlatList
+type RepositoryListContainerRoutedProps = 
+  RepositoryListContainerProps & RouteComponentProps;
+
+class RepositoryListContainer extends Component<RepositoryListContainerRoutedProps> {
+  renderHeader = (): JSX.Element => {
+    const { filter, setFilter, sorting, setSortingCriteria } = this.props;
+    return (
+      <>
+        <FilterInput filter={filter} setFilter={setFilter}  />
+        <SortingMenu setSortingCriteria={setSortingCriteria} sorting={sorting} />
+      </>
+    );
+  };
+
+  render() {
+    const { repositories, history } = this.props;
+    return (
+      <FlatList
       data={repositories}
       keyExtractor={repo => repo.id}
-      ListHeaderComponent={() => <SortingMenu setSortingCriteria={setSortingCriteria} sorting={sorting} />}
+      ListHeaderComponent={this.renderHeader}
       ItemSeparatorComponent={ItemSeparator}
       renderItem={({ item: repository }) => (
         <TouchableOpacity onPress={() => history.push(`/${repository.id}`)}>
@@ -24,8 +38,9 @@ const RepositoryListContainer: React.FC<RepositoryListContainerProps> = ({ repos
         </TouchableOpacity>
       )} 
     />
-  );
-};
+    );
+  }
+}
 
 const ItemSeparator = () => <View style={{ height: 10 }} />;
 
@@ -35,4 +50,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default RepositoryListContainer;
+export default withRouter(RepositoryListContainer);

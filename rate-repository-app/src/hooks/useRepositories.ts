@@ -11,7 +11,7 @@ interface SortCriteriaTypes {
   }
 }
 
-type UseRepositories = (sortCriteria: string) => RepositoriesHookResult<Repository[]>;
+type UseRepositories = ({ sortCriteria, filter }: Record<string, string>) => RepositoriesHookResult<Repository[]>;
 
 const sortCriteriaOptions: SortCriteriaTypes = {
   latest_repos: { orderBy: 'CREATED_AT', orderDirection: 'DESC' },
@@ -19,9 +19,9 @@ const sortCriteriaOptions: SortCriteriaTypes = {
   lowest_rated_repos: { orderBy: 'RATING_AVERAGE', orderDirection: 'ASC' },
 };
 
-const useRepositories: UseRepositories = (sortCriteria) => {
+const useRepositories: UseRepositories = ({ sortCriteria, filter }) => {
   const { data, loading, refetch } = useQuery<RepositoriesQueryResult>(REPOSITORIES, {
-    variables: sortCriteriaOptions[sortCriteria],
+    variables: { ...sortCriteriaOptions[sortCriteria], filter },
     fetchPolicy: 'cache-and-network',
   });
 

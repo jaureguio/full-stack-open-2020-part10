@@ -75,6 +75,8 @@ export interface RepositoryListContainerProps {
   repositories?: Repository[];
   setSortingCriteria: Dispatch<SetStateAction<string>>;
   sorting: string;
+  filter: string;
+  setFilter: Dispatch<SetStateAction<string>>;
 }
 
 /**
