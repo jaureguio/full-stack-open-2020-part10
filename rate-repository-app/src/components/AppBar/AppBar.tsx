@@ -24,10 +24,11 @@ const AppBar: React.FC = () => {
     history.push('/');
   };
 
-  const signInOut = data?.authorizedUser
+  const AppBarTabs = data?.authorizedUser
     ? (
       <>
         <Link to='/newreview' component={AppBarTab} isActive={pathname === '/newreview'}>Create a review</Link>
+        <Link to='/myreviews' component={AppBarTab} isActive={pathname === '/myreviews'}>My reviews</Link>
         <AppBarTab onPress={onSignOut}>Sign out</AppBarTab>
       </>
     ) : (
@@ -41,7 +42,7 @@ const AppBar: React.FC = () => {
     <View style={styles.container}>
       <ScrollView horizontal>
         <Link to='/' component={AppBarTab} isActive={pathname === '/'}>Repositories</Link>
-        {signInOut}
+        {AppBarTabs}
       </ScrollView>
     </View>
   );

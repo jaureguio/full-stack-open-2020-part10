@@ -9,6 +9,23 @@ import SingleRepository from './RepositoryList/SingleRepository';
 import ReviewForm from './ReviewForm';
 import SignIn from './SignInForm';
 import SignUp from './SignUpForm';
+import UserReviews from './UserReviews/indext';
+
+const Main: React.FC = () => {
+  return (
+    <View style={styles.container}>
+      <AppBar/>
+      <Switch>
+        <Route exact path='/' component={RepositoryList} />
+        <Route path='/signin' component={SignIn} />
+        <Route path='/signup' component={SignUp} />
+        <Route path='/newreview' component={ReviewForm} />
+        <Route path='/myreviews' component={UserReviews} />
+        <Route path='/:id' component={SingleRepository} />
+      </Switch>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -17,31 +34,5 @@ const styles = StyleSheet.create({
     flexShrink: 1,
   }
 });
-
-const Main: React.FC = () => {
-  return (
-    <View style={styles.container}>
-      <AppBar/>
-      <Switch>
-        <Route exact path='/'>
-          <RepositoryList />
-        </Route>
-        <Route exact path='/signin'>
-          <SignIn />
-        </Route>
-        <Route exact path='/signup'>
-          <SignUp/>
-        </Route>
-        <Route exact path='/newreview'>
-          <ReviewForm />
-        </Route>
-        <Route path='/:id'>
-          <SingleRepository />
-        </Route>
-        <Redirect to='/' />
-      </Switch>
-    </View>
-  );
-};
 
 export default Main;

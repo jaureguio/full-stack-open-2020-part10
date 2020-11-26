@@ -23,7 +23,7 @@ const SingleRepository: React.FC = () => {
       repository={results}
       reviews={reviewData}
       handleFetchMore={handleFetchMore}
-      loading={loading}
+      loadingReviews={loading}
       githubLink
     />
   );

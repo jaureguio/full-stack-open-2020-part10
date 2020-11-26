@@ -148,7 +148,13 @@ export interface RepositoriesQueryResult {
 
 export interface AuthorizedUser { 
   authorizedUser: {
-    username: string;
+    reviews: {
+      edges: {
+        node: Review;
+        cursor?: string;
+      }[]
+      pageInfo: PageInfo
+    }
   }
 }
 

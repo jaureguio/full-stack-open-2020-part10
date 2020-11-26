@@ -1,13 +1,18 @@
 import { gql } from 'apollo-boost';
 
-import { REPOSITORY_DATA_FRAGMENT } from './fragments';
+import { REPOSITORY_DATA_FRAGMENT, REVIEWS_FRAGMENT } from './fragments';
 
 export const AUTHORIZED_USER = gql`
-  query {
+  query getAuthorizedUser($includeReviews: Boolean = false){
     authorizedUser {
       username
+      reviews @include(if: $includeReviews) {
+        ...reviewsData
+      }
     }
   }
+
+  ${REVIEWS_FRAGMENT}
 `;
 
 export const REPOSITORIES = gql`
@@ -62,28 +67,11 @@ export const REPOSITORY_REVIEWS = gql`
     repository(id: $id) {
       ...repositoryData
       reviews(first: $first, after: $after) {
-        edges {
-          node {
-            id
-            text
-            createdAt
-            rating
-            repositoryId
-            user {
-              username
-            }
-          }
-          cursor
-        }
-        pageInfo {
-          endCursor
-          startCursor
-          totalCount
-          hasNextPage
-        }
+        ...reviewsData
       }
     }
   }
 
   ${REPOSITORY_DATA_FRAGMENT}
+  ${REVIEWS_FRAGMENT}
 `;
