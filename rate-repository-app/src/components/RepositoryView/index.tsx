@@ -8,45 +8,31 @@ import theme from '../../utils/theme';
 import { parseThousands, formatDate } from '../../utils/helpers';
 import { Repository } from '../../types';
 
-interface Review {
-  id: string;
-  text: string;
-  rating: number;
-  createdAt: string;
-  repositoryId: string;
-  user: {
-    username: string;
-  }
-}
-
-interface RepositoryViewProps {
-  repository?: Repository;
-  githubLink?: boolean;
-  reviews?: Review[]
-}
-
-const RepositoryView: React.FC<RepositoryViewProps> = ({ repository, githubLink = false, reviews = [] }) => {
-  
-  if(!repository) return null;
+const RepositoryView: React.FC<RepositoryViewProps> = ({
+  repository,
+  reviews = [],
+  githubLink = false,
+  handleFetchMore,
+  loading
+}) => {
   
   return (reviews.length ? (
-    <FlatList
-      data={reviews}
-      keyExtractor={review => review.id}
-      renderItem={({ item: review }) => <ReviewItem review={review} />}
-      ItemSeparatorComponent={ItemSeparator}
-      ListHeaderComponent={() => <RepositoryData repository={repository} githubLink={githubLink} />}
-    />
+    <>
+      <FlatList
+        data={reviews}
+        keyExtractor={review => review.id}
+        renderItem={({ item: review }) => <ReviewItem review={review} />}
+        ItemSeparatorComponent={ItemSeparator}
+        ListHeaderComponent={() => <RepositoryData repository={repository} githubLink={githubLink} />}
+        onEndReached={handleFetchMore}
+        onEndReachedThreshold={0.1}
+      />
+      {loading && <Text>Loading more reviews...</Text>}
+    </>
   ) : (
     <RepositoryData repository={repository} githubLink={githubLink} />
   ));
 };
-
-const ItemSeparator = () => <View style={{ height: 10 }} />;
-
-interface ReviewItemProps {
-  review: Review;
-}
 
 const ReviewItem: React.FC<ReviewItemProps> = ({ review }) => {
   return (
@@ -83,31 +69,30 @@ const ReviewItem: React.FC<ReviewItemProps> = ({ review }) => {
   );
 };
 
-interface RepositoryDataProps extends Omit<RepositoryViewProps, 'reviews'> {
-  repository: Repository;
-}
+const RepositoryData: React.FC<RepositoryDataProps> = ({ repository, githubLink = false }) => {
 
-const RepositoryData: React.FC<RepositoryDataProps> = ({ repository, githubLink = false }) => (
-  <View style={githubLink && { marginBottom: 10, backgroundColor: 'white' }}>
-    <RepositoryInfo 
-      ownerAvatarUrl={repository.ownerAvatarUrl}
-      fullName={repository.fullName}
-      description={repository.description}
-      id={repository.id}
-      language={repository.language}
-    />
-    <RepositoryStats
-      id={repository.id}
-      stars={repository.stargazersCount}
-      forks={repository.forksCount}
-      reviews={repository.reviewCount}
-      ratingAvg={repository.ratingAverage}
-    />
-    {githubLink && <GitHubLink repositoryUrl={repository.url} />}
-  </View>
-);
-
-type RepositoryInfoProps = Record<'ownerAvatarUrl' | 'fullName' | 'description' | 'id' | 'language', string>;
+  if(!repository) return null;
+  
+  return (
+    <View style={githubLink && { marginBottom: 10, backgroundColor: 'white' }}>
+      <RepositoryInfo 
+        ownerAvatarUrl={repository.ownerAvatarUrl}
+        fullName={repository.fullName}
+        description={repository.description}
+        id={repository.id}
+        language={repository.language}
+      />
+      <RepositoryStats
+        id={repository.id}
+        stars={repository.stargazersCount}
+        forks={repository.forksCount}
+        reviews={repository.reviewCount}
+        ratingAvg={repository.ratingAverage}
+      />
+      {githubLink && <GitHubLink repositoryUrl={repository.url} />}
+    </View>
+  );
+};
 
 const RepositoryInfo: React.FC<RepositoryInfoProps> = ({ ownerAvatarUrl, fullName, description, id, language}) => {
   return (
@@ -128,8 +113,6 @@ const RepositoryInfo: React.FC<RepositoryInfoProps> = ({ ownerAvatarUrl, fullNam
     </View>
   );
 };
-
-type RepositoryStatsProps = Record<'stars' | 'forks' | 'reviews' | 'ratingAvg', number> & { id: string };
 
 const RepositoryStats: React.FC<RepositoryStatsProps> = ({ id, stars, forks, reviews, ratingAvg }) => {
   return (
@@ -154,8 +137,6 @@ const RepositoryStats: React.FC<RepositoryStatsProps> = ({ id, stars, forks, rev
   );
 };
 
-type GitHubLinkProps = Record<'repositoryUrl', string>;
-
 const GitHubLink: React.FC<GitHubLinkProps> = ({ repositoryUrl }) => {
   return (
     <TouchableWithoutFeedback onPress={() => WebBrowser.openBrowserAsync(repositoryUrl)}>
@@ -165,6 +146,8 @@ const GitHubLink: React.FC<GitHubLinkProps> = ({ repositoryUrl }) => {
     </TouchableWithoutFeedback>
   );
 };
+
+const ItemSeparator = () => <View style={{ height: 10 }} />;
 
 const styles = StyleSheet.create({
   sectionContainer: {
@@ -218,5 +201,38 @@ const styles = StyleSheet.create({
     fontWeight: theme.fontWeights.bold
   }
 });
+
+interface Review {
+  id: string;
+  text: string;
+  rating: number;
+  createdAt: string;
+  repositoryId: string;
+  user: {
+    username: string;
+  }
+}
+
+interface RepositoryViewProps {
+  repository?: Repository;
+  githubLink?: boolean;
+  reviews?: Review[];
+  handleFetchMore?: () => void;
+  loading: boolean;
+}
+
+interface ReviewItemProps {
+  review: Review;
+}
+
+interface RepositoryDataProps extends Omit<RepositoryViewProps, 'reviews' | 'handleFetchMore' | 'loading'> {
+  repository?: Repository;
+}
+
+type RepositoryInfoProps = Record<'ownerAvatarUrl' | 'fullName' | 'description' | 'id' | 'language', string>;
+
+type RepositoryStatsProps = Record<'stars' | 'forks' | 'reviews' | 'ratingAvg', number> & { id: string };
+
+type GitHubLinkProps = Record<'repositoryUrl', string>;
 
 export default RepositoryView;

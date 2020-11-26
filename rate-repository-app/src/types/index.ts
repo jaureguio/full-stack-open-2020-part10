@@ -14,6 +14,13 @@ export interface Review {
   }
 }
 
+interface PageInfo {
+  endCursor: string;
+  startCursor: string;
+  totalCount: number;
+  hasNextPage: boolean;
+}
+
 export interface Repository {
   id: string;
   fullName: string;
@@ -25,7 +32,13 @@ export interface Repository {
   reviewCount: number;
   ratingAverage: number;
   url: string;
-  reviews?: Boilerplate<Review>
+  reviews: {
+    edges: {
+      node: Review;
+      cursor?: string;
+    }[]
+    pageInfo: PageInfo
+  }
 }
 
 export interface Theme {
@@ -64,7 +77,7 @@ export interface FormikTextInputProps extends NativeTextInputProps {
 
 export interface AppBarTabProps extends BaseProps {
   isActive?: boolean;
-  onPress?: () => void;
+  onPress?: (e: GestureResponderEvent) => void;
 }
 
 export interface TouchableNativeHandleSubmit {
@@ -73,10 +86,12 @@ export interface TouchableNativeHandleSubmit {
 
 export interface RepositoryListContainerProps {
   repositories?: Repository[];
+  loading: boolean;
   setSortingCriteria: Dispatch<SetStateAction<string>>;
   sorting: string;
   filter: string;
   setFilter: Dispatch<SetStateAction<string>>;
+  onEndReached: (info: { distanceFromEnd: number }) => void
 }
 
 /**
@@ -105,11 +120,10 @@ export interface Credentials {
 export interface RepositoriesHookResult<T> {
   results: T | undefined;
   loading: boolean;
-  refetch: () => void;
+  handleFetchMore: () => void;
 }
 
 /* useSingleRepository */
-export type UseSingleRepository = ( repositoryId: string ) => RepositoriesHookResult<Repository>;
 
 /* useSignIn */
 
@@ -122,16 +136,14 @@ export type UseSingleRepository = ( repositoryId: string ) => RepositoriesHookRe
 
 /* QUERIES */
 
-interface Boilerplate<T> {
-  edges: { node: T }[]
-}
-
 export interface RepositoriesQueryResult {
-  repositories: Boilerplate<Repository>
-}
-
-export interface SingleRepositoryQueryResult {
-  repository: Repository
+  repositories: {
+    edges: {
+      node: Repository;
+      cursor?: string;
+    }[]
+    pageInfo: PageInfo
+  }
 }
 
 export interface AuthorizedUser { 

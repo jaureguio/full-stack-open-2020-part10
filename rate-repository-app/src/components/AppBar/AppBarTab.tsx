@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, TouchableWithoutFeedback, TextStyle, StyleProp } from 'react-native';
-import Text from '../utilities/Text';
 
+import Text from '../utilities/Text';
 import { AppBarTabProps } from '../../types';
 import theme from '../../utils/theme';
 
@@ -15,6 +15,7 @@ const AppBarTab: React.FC<AppBarTabProps> = ({
     isActive && styles.active,
     style
   ];
+
   return (
     <TouchableWithoutFeedback>
       <Text 

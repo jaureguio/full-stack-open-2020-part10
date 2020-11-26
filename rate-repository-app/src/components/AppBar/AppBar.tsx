@@ -11,13 +11,6 @@ import theme from '../../utils/theme';
 import { AUTHORIZED_USER } from '../../graphql/queries';
 import { AuthorizedUser } from '../../types';
 
-const styles = StyleSheet.create({
-  container: {
-    paddingTop: Constants.statusBarHeight,
-    backgroundColor: theme.appBar.primary,
-  },
-});
-
 const AppBar: React.FC = () => {
   const { pathname } = useLocation();
   const history = useHistory();
@@ -31,7 +24,7 @@ const AppBar: React.FC = () => {
     history.push('/');
   };
 
-  const singInOut = data?.authorizedUser
+  const signInOut = data?.authorizedUser
     ? (
       <>
         <Link to='/newreview' component={AppBarTab} isActive={pathname === '/newreview'}>Create a review</Link>
@@ -48,10 +41,17 @@ const AppBar: React.FC = () => {
     <View style={styles.container}>
       <ScrollView horizontal>
         <Link to='/' component={AppBarTab} isActive={pathname === '/'}>Repositories</Link>
-        {singInOut}
+        {signInOut}
       </ScrollView>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    paddingTop: Constants.statusBarHeight,
+    backgroundColor: theme.appBar.primary,
+  },
+});
 
 export default AppBar;

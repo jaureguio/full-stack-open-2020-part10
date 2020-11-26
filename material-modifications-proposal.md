@@ -15,3 +15,5 @@
 ### Course Page Material
 
 - **Style components section**. Referencing "variable-name" syntax as snake_case when it should be kebab-case
+
+- Exercise 10.24:
