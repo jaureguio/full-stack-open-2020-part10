@@ -41,7 +41,7 @@ const AppBar: React.FC = () => {
   return (
     <View style={styles.container}>
       <ScrollView horizontal>
-        <Link to='/' component={AppBarTab} isActive={pathname === '/'}>Repositories</Link>
+        <Link to='/' component={AppBarTab} isActive={/(\/$|.*\..*)/i.exec(pathname)}>Repositories</Link>
         {AppBarTabs}
       </ScrollView>
     </View>

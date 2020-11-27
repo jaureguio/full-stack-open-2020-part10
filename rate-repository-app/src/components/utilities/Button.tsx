@@ -21,14 +21,11 @@ const Button: React.FC<ButtonProps> = ({ onPress, customStyles, ...props }) => {
 
 const buttonStyles = StyleSheet.create({
   container: {
-
+    borderRadius: 4
   },
   text: {
     color: 'white',
-    textAlign: 'center',
-    borderRadius: 4,
-    padding: 12,
-    marginVertical: 8,
+    textAlign: 'center'
   }
 });
 

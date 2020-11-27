@@ -4,11 +4,9 @@ import * as yup from 'yup';
 import Form from '../utilities/Form';
 import { Credentials } from '../../types';
 
-type SignInFormContainerProps = { onSubmit(values: Credentials): Promise<void> };
-
 const SignInFormContainer: React.FC<SignInFormContainerProps> = ({ onSubmit }) => (
   <Form<Credentials, typeof schema> 
-    onSubmit={onSubmit} 
+  onSubmit={onSubmit} 
     submitText='Sign In'
     inputs={[
       {
@@ -22,7 +20,7 @@ const SignInFormContainer: React.FC<SignInFormContainerProps> = ({ onSubmit }) =
       }
     ]}
     validationSchema={schema}
-  />
+    />
 );
 
 const schema = yup.object().shape({
@@ -35,5 +33,7 @@ const schema = yup.object().shape({
   .trim()
   .required('Password is required'),
 });
+
+type SignInFormContainerProps = { onSubmit(values: Credentials): Promise<void> };
 
 export default SignInFormContainer;

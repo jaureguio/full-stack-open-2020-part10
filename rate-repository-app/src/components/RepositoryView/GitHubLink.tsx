@@ -1,34 +1,31 @@
 import React from 'react';
-import { View, TouchableWithoutFeedback, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
 
-import Text from '../utilities/Text';
+import Button from '../utilities/Button';
 import theme from '../../utils/theme';
 
 const GitHubLink: React.FC<GitHubLinkProps> = ({ repositoryUrl }) => {
+  const handlePress = () => WebBrowser.openBrowserAsync(repositoryUrl);
+
   return (
-    <TouchableWithoutFeedback onPress={() => WebBrowser.openBrowserAsync(repositoryUrl)}>
-      <View style={[styles.sectionContainer, styles.buttonContainer]}>
-        <Text style={styles.buttonText}>Open in GitHub</Text>
-      </View>
-    </TouchableWithoutFeedback>
+    <Button onPress={handlePress} customStyles={styles}>
+      Open in GitHub
+    </Button>
   );
 };
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    padding: 8,
+  container: {
     flexDirection: 'row',
-    justifyContent: 'space-between'
-  },
-  buttonContainer: {
-    backgroundColor: theme.colors.primary,
     justifyContent: 'center',
-    margin: 8,
+    backgroundColor: theme.colors.primary,
+    padding: 8,
+    marginBottom: 8,
+    marginHorizontal: 12
   },
-  buttonText: {
-    color: 'white',
-    fontWeight: theme.fontWeights.bold
+  text: {
+    fontWeight: theme.fontWeights.bold,
   }
 });
 

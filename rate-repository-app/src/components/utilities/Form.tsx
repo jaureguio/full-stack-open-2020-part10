@@ -1,14 +1,12 @@
 import React from 'react';
+import { View, StyleSheet } from 'react-native';
 import { Formik } from 'formik';
-import { View } from 'react-native';
 
 import FormikTextInput from './FormikTextInput';
 import Button from './Button';
 import { TouchableNativeHandleSubmit } from '../../types';
 
 // type Values = Record<string, string | number>;
-
-// type Schema = yup.ObjectSchema<yup.Shape<Record<string,unknown> | undefined, Values>, Record<string,unknown>>;
 
 interface FormProps<T, S> {
   inputs: {
@@ -22,20 +20,12 @@ interface FormProps<T, S> {
   validationSchema: S;
 }
 
-// interface FormFactory<T> { 
-//   textInputs: React.ReactNode[];
-//   initialValues: Record<keyof T, string | number>;
-// }
-
 function Form<ValuesType, SchemaType> ({
     inputs,
     submitText = 'Submit',
     onSubmit,
     validationSchema,
 }: React.PropsWithChildren<FormProps<ValuesType, SchemaType>>): JSX.Element {
-
-  // const initialValues: Record<string, number | string> = {};
-  // const textInputs: React.ReactNode[] = [];
 
   const initialValues = inputs.reduce((acc, { name, initialValue = '' }) => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -64,12 +54,29 @@ function Form<ValuesType, SchemaType> ({
           backgroundColor: 'white',
         }}>
           {textInputs}
-          <Button onPress={handleSubmit} backgroundColor='primary' fontWeight='bold'>{submitText}</Button>
+          <Button
+            backgroundColor='primary'
+            fontWeight='bold'
+            customStyles={styles}
+            onPress={handleSubmit}
+          >
+            {submitText}
+          </Button>
         </View>
       );
     }}
     </Formik>
   );
 }
+
+const styles = StyleSheet.create({
+  text: {
+    color: 'white',
+    textAlign: 'center',
+    borderRadius: 4,
+    padding: 12,
+    marginVertical: 8,
+  }
+});
 
 export default Form;
