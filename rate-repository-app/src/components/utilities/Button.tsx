@@ -21,7 +21,8 @@ const Button: React.FC<ButtonProps> = ({ onPress, customStyles, ...props }) => {
 
 const buttonStyles = StyleSheet.create({
   container: {
-    borderRadius: 4
+    borderRadius: 4,
+    overflow: 'hidden',
   },
   text: {
     color: 'white',

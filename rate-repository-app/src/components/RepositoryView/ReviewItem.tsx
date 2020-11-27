@@ -1,23 +1,90 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Alert } from 'react-native';
+import { useHistory } from 'react-router-native';
+import { useMutation, gql } from '@apollo/react-hooks';
 
 import Text from '../utilities/Text';
+import Button from '../utilities/Button';
 
 import { formatDate } from '../../utils/helpers';
 import theme from '../../utils/theme';
 import { Review } from '../../types';
 
-const ReviewItem: React.FC<ReviewItemProps> = ({ review, reviewsOnly = false }) => {
+const DELETE_REVIEW = gql`
+  mutation deleteReview($id: ID!) {
+    deleteReview(id: $id)
+  }
+`;
+
+const ReviewItem: React.FC<ReviewItemProps> = ({ review, reviewsOnly = false, refetch }) => {
+  const history = useHistory();
+  const [deleteReview] = useMutation(DELETE_REVIEW);
+
+  const handleViewRepository = () => {
+    history.push(`/${review.repositoryId}`);
+  };
+
+  const handleDelete = () => {
+    Alert.alert(
+      'Delete review',
+      'Are you sure you want to delete this review?',
+      [
+        {text: 'Cancel', style: 'cancel'},
+        {text: 'DELETE', onPress: async () => {
+          if(refetch) {
+            await deleteReview({ variables: { id: review.id } });
+            await refetch({ includeReviews: true }); 
+          }
+        }},
+      ]
+    );
+  };
+
+  const callToAction = (
+    <View style={[
+      reviewStyles.ctaActionsContainer,
+      reviewStyles.horizontalArrange]}
+    >
+      <Button
+        fontWeight='bold'
+        onPress={handleViewRepository}
+        customStyles={{
+          container: {
+            paddingHorizontal: 36,
+            paddingVertical: 12,
+            backgroundColor: theme.colors.primary
+          }
+        }}
+      >
+        View Repository
+      </Button>
+      <Button
+        fontWeight='bold'
+        onPress={handleDelete}
+        customStyles={{
+          container: {
+            paddingHorizontal: 36,
+            paddingVertical: 12,
+            backgroundColor: 'red'
+          }
+        }}
+      >
+        Delete Review
+      </Button>
+    </View>
+  );
+  
   return (
     <View style={reviewStyles.mainContainer}>
-      <View style={reviewStyles.ratingContainer}>
+      <View style={reviewStyles.horizontalArrange}>
+        <View style={reviewStyles.ratingContainer}>
         <View style={reviewStyles.rating}>
           <Text fontWeight='bold' color='primary' fontSize='subheading'>
             {review.rating}
           </Text>
         </View>
       </View>
-      <View style={reviewStyles.reviewTextContainer}>
+        <View style={reviewStyles.reviewTextContainer}>
         <View>
           <Text fontWeight='bold'>
             {reviewsOnly
@@ -28,6 +95,8 @@ const ReviewItem: React.FC<ReviewItemProps> = ({ review, reviewsOnly = false }) 
         </View>
         <Text style={reviewStyles.reviewText}>{review.text}</Text>
       </View>
+      </View>
+      { reviewsOnly && callToAction } 
     </View>
   );
 };
@@ -35,8 +104,11 @@ const ReviewItem: React.FC<ReviewItemProps> = ({ review, reviewsOnly = false }) 
 const reviewStyles = StyleSheet.create({
   mainContainer: { 
     backgroundColor: 'white',
-    flexDirection: 'row',
     padding: 12
+  },
+  horizontalArrange: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   },
   ratingContainer: {
     flex: 4,
@@ -53,17 +125,22 @@ const reviewStyles = StyleSheet.create({
     alignItems: 'center'
   },
   reviewTextContainer: {
-    flex: 20,
+    flex: 16,
     flexShrink: 1
   },
   reviewText: { 
     flexShrink: 1
+  },
+  ctaActionsContainer: {
+    marginTop: 12
   }
 });
 
 interface ReviewItemProps {
   review: Review;
   reviewsOnly?: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  refetch?: (variables: any) => Promise<any>;
 }
 
 export default ReviewItem;

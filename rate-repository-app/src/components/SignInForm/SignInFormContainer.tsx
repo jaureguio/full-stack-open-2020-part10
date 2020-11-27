@@ -9,15 +9,8 @@ const SignInFormContainer: React.FC<SignInFormContainerProps> = ({ onSubmit }) =
   onSubmit={onSubmit} 
     submitText='Sign In'
     inputs={[
-      {
-        name: 'username',
-        placeholder: 'Username',
-      },
-      {
-        name: 'password',
-        placeholder: 'Password',
-        secure: true
-      }
+      { name: 'username', placeholder: 'Username',},
+      { name: 'password', placeholder: 'Password', secure: true }
     ]}
     validationSchema={schema}
     />

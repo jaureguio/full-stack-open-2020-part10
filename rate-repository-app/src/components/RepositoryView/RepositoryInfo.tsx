@@ -1,12 +1,12 @@
 import React from 'react';
 import { View, Image, StyleSheet } from 'react-native';
+import theme from '../../utils/theme';
 
 import Text from '../utilities/Text';
-import { styles } from '.';
 
 const RepositoryInfo: React.FC<RepositoryInfoProps> = ({ ownerAvatarUrl, fullName, description, id, language}) => {
   return (
-    <View style={styles.sectionContainer}>
+    <View style={imageStyles.sectionContainer}>
       <View style={imageStyles.imageContainer}>
         <Image
           style={imageStyles.imageStyles}
@@ -15,16 +15,40 @@ const RepositoryInfo: React.FC<RepositoryInfoProps> = ({ ownerAvatarUrl, fullNam
           }}
         />
       </View>
-      <View style={styles.repoInfo}>
-        <Text style={styles.subheading}>{fullName}</Text>
-        <Text style={styles.bodyText}>{description}</Text>
-        <Text style={styles.language} testID={`${id}/lang`}>{language}</Text>
+      <View style={imageStyles.repoInfo}>
+        <Text style={imageStyles.subheading}>{fullName}</Text>
+        <Text style={imageStyles.bodyText}>{description}</Text>
+        <Text style={imageStyles.language} testID={`${id}/lang`}>{language}</Text>
       </View>
     </View>
   );
 };
 
 const imageStyles = StyleSheet.create({
+  sectionContainer: {
+    padding: 8,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  repoInfo: {
+    flex: 13,
+    justifyContent: 'space-between',
+  },
+  subheading: {
+    fontSize: theme.fontSizes.subheading,
+    fontWeight: theme.fontWeights.bold,
+  },
+  bodyText: {
+    paddingVertical: 4,
+    color: theme.colors.secondary,
+  },
+  language: {
+    padding: 4,
+    color: 'white',
+    backgroundColor: theme.colors.primary,
+    alignSelf: 'flex-start',
+    borderRadius: 4,
+  },
   imageContainer: {
     flex: 3,
   },
